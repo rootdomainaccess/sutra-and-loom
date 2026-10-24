@@ -1,63 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
+import * as fs from "fs";
+import * as path from "path";
 
 export const dynamic = "force-dynamic";
 
-const DEFAULT_PRODUCTS = [
-  {
-    id: "default-1",
-    name: "Pure Chanderi Unstitched Dress Piece with Zari Border",
-    category: "Dress Pieces",
-    price: 3499,
-    fabric: "Unstitched",
-    color: "Earthy Gold",
-    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
-    description: "Handwoven unstitched suit set including 2.5m kurta fabric, 2.5m bottom, and a zari-woven Dupatta for custom stitching.",
-    quantity: 10,
-    inStock: true,
-  },
-  {
-    id: "default-2",
-    name: "Royal Banarasi Silk Traditional Dress",
-    category: "Dress",
-    price: 12999,
-    fabric: "Free Size",
-    color: "Deep Crimson",
-    image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80",
-    description: "Stunning ready-to-wear traditional Banarasi silk dress featuring intricate gold brocade weaving and regal flare.",
-    quantity: 0, // Out of stock example
-    inStock: false,
-  },
-];
+const DATA_FILE = path.join(process.cwd(), "data", "products.json");
+
+function getLocalProducts() {
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      const parsed = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {}
+  return [];
+}
+
+function saveLocalProducts(products: any[]) {
+  try {
+    const dir = path.dirname(DATA_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
+  } catch (e) {}
+}
+
+const CMS_API_URL = "https://factory-asset-engine.vercel.app/api/products";
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const category = searchParams.get("category");
-    const search = searchParams.get("search");
-
-    let filtered = DEFAULT_PRODUCTS;
-    if (category && category !== "All") {
-      filtered = filtered.filter((p) => p.category === category);
+    const res = await fetch(CMS_API_URL, { next: { revalidate: 0 } });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.products)) {
+        // Save to local for fallback
+        const local = getLocalProducts();
+        const merged = [
+          ...data.products,
+          ...local.filter((l: any) => !data.products.some((p: any) => p.id === l.id)),
+        ];
+        return NextResponse.json({ success: true, count: merged.length, products: merged });
+      }
     }
-    if (search) {
-      const q = search.toLowerCase();
-      filtered = filtered.filter((p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.fabric.toLowerCase().includes(q)
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-      count: filtered.length,
-      products: filtered,
-    });
-  } catch (err: any) {
-    return NextResponse.json({
-      success: true,
-      count: DEFAULT_PRODUCTS.length,
-      products: DEFAULT_PRODUCTS,
-    });
+  } catch (e) {
+    // ignore
   }
+
+  // fallback local only
+  const local = getLocalProducts();
+  return NextResponse.json({ success: true, count: local.length, products: local });
 }
