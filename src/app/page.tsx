@@ -58,7 +58,7 @@ export default function HomePage() {
           <div className="space-y-6">
             <div className="inline-flex items-center space-x-2 bg-[#FAF9F5] px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest text-[#2C3E50] border border-[#D8D2C4]">
               <Sparkles className="w-3.5 h-3.5 text-[#8C7A6B]" />
-              <span>Autumn / Festive 2026 Collection</span>
+              <span>Autumn / Festive Collection</span>
             </div>
             <h1 className="font-serif text-4xl sm:text-6xl font-normal leading-tight text-[#2C3E50]">
               The Poetry of <br /><span className="italic font-light text-[#5A6E7F]">Earthy Handlooms</span>
@@ -73,8 +73,8 @@ export default function HomePage() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" alt="Dress Piece" className="rounded-xl shadow-md object-cover h-72 w-full border border-[#D8D2C4]" />
-            <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80" alt="Traditional Dress" className="rounded-xl shadow-md object-cover h-72 w-full border border-[#D8D2C4] mt-8" />
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80" alt="Handloom Weave" className="rounded-xl shadow-md object-cover h-72 w-full border border-[#D8D2C4]" />
+            <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=80" alt="Indian Textile" className="rounded-xl shadow-md object-cover h-72 w-full border border-[#D8D2C4] mt-8" />
           </div>
         </div>
       </section>
@@ -84,8 +84,8 @@ export default function HomePage() {
         <h2 className="font-serif text-3xl font-normal mb-10 text-center">Shop by Category</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {[
-            { name: "Dress Piece", subtitle: "Unstitched Fabric Sets for Custom Tailoring", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" },
-            { name: "Traditional Dresses", subtitle: "Ready-to-Wear Ethnic Masterpieces", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80" }
+            { name: "Dress Pieces", subtitle: "Unstitched Fabric Sets for Custom Tailoring", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80" },
+            { name: "Dress", subtitle: "Ready-to-Wear Ethnic Masterpieces", img: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=80" }
           ].map((cat) => (
             <Link key={cat.name} href={`/shop?category=${encodeURIComponent(cat.name)}`} className="group relative rounded-2xl overflow-hidden border border-[#D8D2C4] aspect-[16/10] block shadow-sm hover:shadow-md transition">
               <img src={cat.img} alt={cat.name} className="object-cover w-full h-full group-hover:scale-105 transition duration-700" />
@@ -99,36 +99,56 @@ export default function HomePage() {
       </section>
 
       {/* Featured Products */}
-      <section className="max-w-7xl mx-auto px-4 py-20 w-full border-t border-[#D8D2C4]/40">
-        <div className="flex justify-between items-end mb-12">
-          <div>
-            <span className="text-xs uppercase tracking-widest text-[#8C7A6B] font-semibold">Handpicked</span>
-            <h2 className="font-serif text-3xl font-normal mt-1">Featured Masterpieces</h2>
-          </div>
-          <Link href="/shop" className="text-xs uppercase tracking-wider font-bold hover:text-[#8C7A6B] flex items-center gap-1">
-            View All <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {featured.map((p) => (
-            <Link key={p.id} href={`/product/${p.id}`} className="bg-[#F2EFE9] rounded-xl overflow-hidden border border-[#D8D2C4]/60 hover:shadow-md transition flex flex-col group">
-              <div className="relative overflow-hidden aspect-[3/4]">
-                <img src={p.image} alt={p.name} className="object-cover w-full h-full group-hover:scale-105 transition duration-700" />
-                <span className="absolute top-3 left-3 bg-[#FAF9F5]/95 backdrop-blur-xs text-[#2C3E50] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border border-[#D8D2C4]">
-                  {p.category}
-                </span>
-              </div>
-              <div className="p-5 flex flex-col flex-grow justify-between space-y-2">
-                <div>
-                  <span className="text-[11px] text-[#8C7A6B] uppercase tracking-widest">{p.fabric}</span>
-                  <h3 className="font-serif text-lg font-medium text-[#2C3E50] mt-1">{p.name}</h3>
-                </div>
-                <span className="font-serif text-lg font-bold text-[#2C3E50]">₹{p.price.toLocaleString('en-IN')}</span>
-              </div>
+      {featured.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 py-20 w-full border-t border-[#D8D2C4]/40">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <span className="text-xs uppercase tracking-widest text-[#8C7A6B] font-semibold">Handpicked</span>
+              <h2 className="font-serif text-3xl font-normal mt-1">Featured Masterpieces</h2>
+            </div>
+            <Link href="/shop" className="text-xs uppercase tracking-wider font-bold hover:text-[#8C7A6B] flex items-center gap-1">
+              View All <ArrowRight className="w-3.5 h-3.5" />
             </Link>
-          ))}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featured.map((p) => (
+              <Link key={p.id} href={`/product/${p.id}`} className="bg-[#F2EFE9] rounded-xl overflow-hidden border border-[#D8D2C4]/60 hover:shadow-md transition flex flex-col group">
+                <div className="relative overflow-hidden aspect-[4/5]">
+                  <img src={p.image} alt={p.name} className="object-cover w-full h-full group-hover:scale-105 transition duration-700" />
+                  <span className="absolute top-3 left-3 bg-[#FAF9F5]/95 backdrop-blur-xs text-[#2C3E50] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border border-[#D8D2C4]">
+                    {p.category}
+                  </span>
+                </div>
+                <div className="p-6 flex flex-col flex-grow justify-between space-y-3">
+                  <div>
+                    <span className="text-[11px] text-[#8C7A6B] uppercase tracking-widest">{p.fabric}</span>
+                    <h3 className="font-serif text-xl font-medium text-[#2C3E50] group-hover:text-[#8C7A6B] transition mt-1 leading-snug">
+                      {p.name}
+                    </h3>
+                  </div>
+                  <div className="flex items-center justify-between pt-3 border-t border-[#D8D2C4]/40">
+                    <span className="font-serif text-xl font-bold text-[#2C3E50]">₹{p.price.toLocaleString('en-IN')}</span>
+                    <span className="px-4 py-2 bg-[#2C3E50] text-[#FAF9F5] text-xs font-semibold uppercase tracking-wider rounded">
+                      View Details
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Footer */}
+      <footer className="bg-[#2C3E50] text-[#FAF9F5] py-16 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div>
+            <span className="font-serif text-2xl font-bold tracking-wider">SUTRA & LOOM</span>
+            <p className="text-xs text-[#FAF9F5]/70 mt-2">Authentic Indian handlooms and artisan textiles.</p>
+          </div>
+          <p className="text-xs text-[#FAF9F5]/60">© 2026 Sutra & Loom. All rights reserved.</p>
         </div>
-      </section>
+      </footer>
 
       {/* WhatsApp Widget */}
       <div className="fixed bottom-6 right-6 z-40">
