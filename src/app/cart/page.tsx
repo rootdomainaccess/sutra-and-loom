@@ -45,22 +45,22 @@ export default function CartPage() {
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
   return (
-    <div className="bg-[#F0ECE3] text-[#596E79] min-h-screen flex flex-col font-sans selection:bg-[#C7B198] selection:text-white">
+    <div className="bg-[#FAF9F5] text-[#2C3E50] min-h-screen flex flex-col font-sans selection:bg-[#D8D2C4] selection:text-[#2C3E50]">
       {/* Top Bar */}
-      <div className="bg-[#596E79] text-[#F0ECE3] text-xs py-2 px-4 text-center font-medium tracking-widest uppercase">
+      <div className="bg-[#2C3E50] text-[#FAF9F5] text-xs py-2 px-4 text-center font-medium tracking-widest uppercase">
         Complimentary Worldwide Shipping on Orders Above ₹10,000 | Handcrafted Artisan Weaves
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-[#F0ECE3]/90 backdrop-blur-md border-b border-[#C7B198]/40">
+      <header className="sticky top-0 z-40 bg-[#FAF9F5]/90 backdrop-blur-md border-b border-[#D8D2C4]/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="font-serif text-2xl sm:text-3xl font-bold tracking-wider text-[#596E79]">
+          <Link href="/" className="font-serif text-2xl sm:text-3xl font-bold tracking-wider text-[#2C3E50]">
             SUTRA & LOOM
           </Link>
           <nav className="hidden lg:flex items-center space-x-8 text-sm font-medium tracking-wide">
-            <Link href="/" className="hover:text-[#C7B198] transition">Home</Link>
-            <Link href="/shop" className="hover:text-[#C7B198] transition">Shop Collection</Link>
-            <Link href="/cart" className="text-[#C7B198] font-semibold flex items-center gap-1.5">
+            <Link href="/" className="hover:text-[#8C7A6B] transition">Home</Link>
+            <Link href="/shop" className="hover:text-[#8C7A6B] transition">Shop Collection</Link>
+            <Link href="/cart" className="text-[#8C7A6B] font-semibold flex items-center gap-1.5">
               <ShoppingBag className="w-4 h-4" /> Cart
             </Link>
           </nav>
@@ -74,9 +74,9 @@ export default function CartPage() {
         </h1>
 
         {cart.length === 0 ? (
-          <div className="text-center py-20 bg-[#DFD3C3]/30 rounded-2xl border border-[#C7B198] space-y-4">
-            <p className="text-lg text-[#596E79]/80">Your shopping bag is currently empty.</p>
-            <Link href="/shop" className="inline-block px-8 py-4 bg-[#596E79] text-[#F0ECE3] text-xs font-semibold uppercase tracking-wider rounded hover:bg-[#596E79]/90 transition">
+          <div className="text-center py-20 bg-[#F2EFE9] rounded-2xl border border-[#D8D2C4] space-y-4">
+            <p className="text-lg text-[#2C3E50]/80">Your shopping bag is currently empty.</p>
+            <Link href="/shop" className="inline-block px-8 py-4 bg-[#2C3E50] text-[#FAF9F5] text-xs font-semibold uppercase tracking-wider rounded hover:bg-[#2C3E50]/90 transition">
               Explore Handlooms
             </Link>
           </div>
@@ -84,27 +84,27 @@ export default function CartPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">
               {cart.map((item) => (
-                <div key={item.id} className="flex items-center space-x-4 bg-[#DFD3C3]/40 p-4 rounded-xl border border-[#C7B198]">
-                  <img src={item.image} alt={item.name} className="w-20 h-24 object-cover rounded border border-[#C7B198]" />
+                <div key={item.id} className="flex items-center space-x-4 bg-[#F2EFE9] p-4 rounded-xl border border-[#D8D2C4]">
+                  <img src={item.image} alt={item.name} className="w-20 h-24 object-cover rounded border border-[#D8D2C4]" />
                   <div className="flex-grow">
-                    <span className="text-[10px] uppercase tracking-widest text-[#596E79]/70">{item.category}</span>
-                    <h3 className="font-serif text-base font-medium text-[#596E79]">{item.name}</h3>
-                    <p className="text-xs font-bold text-[#596E79] mt-1">₹{item.price.toLocaleString('en-IN')}</p>
+                    <span className="text-[10px] uppercase tracking-widest text-[#8C7A6B]">{item.category}</span>
+                    <h3 className="font-serif text-base font-medium text-[#2C3E50]">{item.name}</h3>
+                    <p className="text-xs font-bold text-[#2C3E50] mt-1">₹{item.price.toLocaleString('en-IN')}</p>
                     <div className="flex items-center space-x-3 mt-3">
-                      <button onClick={() => adjustQty(item.id, -1)} className="w-7 h-7 bg-[#F0ECE3] border border-[#C7B198] rounded text-xs flex items-center justify-center font-bold">-</button>
+                      <button onClick={() => adjustQty(item.id, -1)} className="w-7 h-7 bg-[#FAF9F5] border border-[#D8D2C4] rounded text-xs flex items-center justify-center font-bold">-</button>
                       <span className="text-xs font-bold">{item.qty}</span>
-                      <button onClick={() => adjustQty(item.id, 1)} className="w-7 h-7 bg-[#F0ECE3] border border-[#C7B198] rounded text-xs flex items-center justify-center font-bold">+</button>
+                      <button onClick={() => adjustQty(item.id, 1)} className="w-7 h-7 bg-[#FAF9F5] border border-[#D8D2C4] rounded text-xs flex items-center justify-center font-bold">+</button>
                     </div>
                   </div>
-                  <button onClick={() => removeItem(item.id)} className="text-[#596E79]/60 hover:text-red-600 p-2">
+                  <button onClick={() => removeItem(item.id)} className="text-[#2C3E50]/60 hover:text-red-600 p-2">
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
               ))}
             </div>
 
-            <div className="bg-[#DFD3C3]/60 p-6 rounded-2xl border border-[#C7B198] space-y-6 h-fit">
-              <h3 className="font-serif text-xl font-medium border-b border-[#C7B198]/40 pb-3">Order Summary</h3>
+            <div className="bg-[#F2EFE9] p-6 rounded-2xl border border-[#D8D2C4] space-y-6 h-fit">
+              <h3 className="font-serif text-xl font-medium border-b border-[#D8D2C4]/40 pb-3">Order Summary</h3>
               <div className="flex justify-between text-sm">
                 <span>Subtotal</span>
                 <span className="font-bold">₹{subtotal.toLocaleString('en-IN')}</span>
@@ -113,11 +113,11 @@ export default function CartPage() {
                 <span>Shipping</span>
                 <span className="text-emerald-700 font-semibold">Free</span>
               </div>
-              <div className="flex justify-between text-lg font-serif font-bold border-t border-[#C7B198]/40 pt-3">
+              <div className="flex justify-between text-lg font-serif font-bold border-t border-[#D8D2C4]/40 pt-3">
                 <span>Total</span>
                 <span>₹{subtotal.toLocaleString('en-IN')}</span>
               </div>
-              <Link href="/checkout" className="w-full py-4 bg-[#596E79] text-[#F0ECE3] text-xs font-semibold uppercase tracking-wider rounded hover:bg-[#596E79]/90 transition text-center block shadow-sm">
+              <Link href="/checkout" className="w-full py-4 bg-[#2C3E50] text-[#FAF9F5] text-xs font-semibold uppercase tracking-wider rounded hover:bg-[#2C3E50]/90 transition text-center block shadow-sm">
                 Proceed to Secure UPI Checkout
               </Link>
             </div>
