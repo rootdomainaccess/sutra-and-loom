@@ -64,7 +64,7 @@ export default function HomePage() {
               The Poetry of <br /><span className="italic font-light">Earthy Handlooms</span>
             </h1>
             <p className="text-base sm:text-lg text-[#596E79]/80 max-w-lg font-light leading-relaxed">
-              Exquisite handwoven sarees, organic Chanderi dresses, and regal festive lehengas crafted by master artisans across rural India.
+              Exquisite dress pieces for bespoke stitching and regal traditional dresses crafted by master artisans across rural India.
             </p>
             <div className="flex space-x-4 pt-4">
               <Link href="/shop" className="px-8 py-4 bg-[#596E79] text-[#F0ECE3] font-medium text-center rounded hover:bg-[#596E79]/90 transition inline-flex items-center gap-2">
@@ -73,26 +73,25 @@ export default function HomePage() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" alt="Saree" className="rounded-lg shadow-md object-cover h-72 w-full border border-[#C7B198]/40" />
-            <img src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80" alt="Dress" className="rounded-lg shadow-md object-cover h-72 w-full border border-[#C7B198]/40 mt-8" />
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" alt="Dress Piece" className="rounded-lg shadow-md object-cover h-72 w-full border border-[#C7B198]/40" />
+            <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80" alt="Traditional Dress" className="rounded-lg shadow-md object-cover h-72 w-full border border-[#C7B198]/40 mt-8" />
           </div>
         </div>
       </section>
 
-      {/* Categories */}
+      {/* Categories (Strictly Dress Piece & Traditional Dresses) */}
       <section className="max-w-7xl mx-auto px-4 py-16 w-full">
         <h2 className="font-serif text-3xl font-normal mb-8 text-center">Shop by Category</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {[
-            { name: "Sarees", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80" },
-            { name: "Ethnic Dresses", img: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80" },
-            { name: "Lehengas", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=600&q=80" },
-            { name: "Kurtis", img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=600&q=80" }
+            { name: "Dress Piece", subtitle: "Unstitched Fabric Sets for Custom Tailoring", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" },
+            { name: "Traditional Dresses", subtitle: "Ready-to-Wear Ethnic Masterpieces", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80" }
           ].map((cat) => (
-            <Link key={cat.name} href={`/shop?category=${encodeURIComponent(cat.name)}`} className="group relative rounded-xl overflow-hidden border border-[#C7B198] aspect-[4/5] block">
+            <Link key={cat.name} href={`/shop?category=${encodeURIComponent(cat.name)}`} className="group relative rounded-2xl overflow-hidden border border-[#C7B198] aspect-[16/10] block shadow-md">
               <img src={cat.img} alt={cat.name} className="object-cover w-full h-full group-hover:scale-105 transition duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#596E79]/80 to-transparent flex items-end p-6">
-                <span className="font-serif text-xl text-[#F0ECE3] font-medium">{cat.name}</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#596E79]/90 via-[#596E79]/40 to-transparent flex flex-col justify-end p-6">
+                <span className="font-serif text-2xl text-[#F0ECE3] font-medium">{cat.name}</span>
+                <span className="text-xs text-[#F0ECE3]/80 uppercase tracking-widest mt-1">{cat.subtitle}</span>
               </div>
             </Link>
           ))}
@@ -112,10 +111,13 @@ export default function HomePage() {
             <Link key={p.id} href={`/product/${p.id}`} className="bg-[#DFD3C3]/50 rounded-xl overflow-hidden border border-[#C7B198]/40 hover:shadow-lg transition flex flex-col group">
               <div className="relative overflow-hidden aspect-[3/4]">
                 <img src={p.image} alt={p.name} className="object-cover w-full h-full group-hover:scale-105 transition duration-500" />
+                <span className="absolute top-3 left-3 bg-[#F0ECE3]/95 backdrop-blur-xs text-[#596E79] text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded border border-[#C7B198]">
+                  {p.category}
+                </span>
               </div>
               <div className="p-5 flex flex-col flex-grow justify-between space-y-2">
                 <div>
-                  <span className="text-[11px] text-[#596E79]/70 uppercase tracking-widest">{p.category}</span>
+                  <span className="text-[11px] text-[#596E79]/70 uppercase tracking-widest">{p.fabric}</span>
                   <h3 className="font-serif text-lg font-medium text-[#596E79]">{p.name}</h3>
                 </div>
                 <span className="font-serif text-lg font-bold text-[#596E79]">₹{p.price.toLocaleString('en-IN')}</span>
