@@ -73,7 +73,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80" alt="Handloom Weave" className="rounded-xl shadow-md object-cover h-72 w-full border border-[#D8D2C4]" />
+            <img src="https://factory-asset-engine.vercel.app/uploads/dress-piece.jpg" alt="Artisan Dress Piece" className="rounded-xl shadow-md object-cover h-72 w-full border border-[#D8D2C4]" />
             <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=80" alt="Indian Textile" className="rounded-xl shadow-md object-cover h-72 w-full border border-[#D8D2C4] mt-8" />
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function HomePage() {
         <h2 className="font-serif text-3xl font-normal mb-10 text-center">Shop by Category</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {[
-            { name: "Dress Pieces", subtitle: "Unstitched Fabric Sets for Custom Tailoring", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80" },
+            { name: "Dress Pieces", subtitle: "Unstitched Fabric Sets for Custom Tailoring", img: "https://factory-asset-engine.vercel.app/uploads/dress-piece.jpg" },
             { name: "Dress", subtitle: "Ready-to-Wear Ethnic Masterpieces", img: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=800&q=80" }
           ].map((cat) => (
             <Link key={cat.name} href={`/shop?category=${encodeURIComponent(cat.name)}`} className="group relative rounded-2xl overflow-hidden border border-[#D8D2C4] aspect-[16/10] block shadow-sm hover:shadow-md transition">
