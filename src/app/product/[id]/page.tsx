@@ -11,6 +11,7 @@ interface Product {
   category: string;
   price: number;
   fabric: string;
+  sizes?: string[];
   color: string;
   image: string;
   description: string;
@@ -22,6 +23,7 @@ export default function ProductDetailPage() {
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedSize, setSelectedSize] = useState<string>("");
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
 
   useEffect(() => {
@@ -32,6 +34,12 @@ export default function ProductDetailPage() {
           if (data.success) {
             const found = (data.products || []).find((p: Product) => p.id === id);
             setProduct(found || null);
+            if (found) {
+              const szList = Array.isArray(found.sizes) && found.sizes.length > 0 
+                ? found.sizes 
+                : (found.fabric || "Free Size").split(",").map((s: string) => s.trim()).filter(Boolean);
+              setSelectedSize(szList[0] || "Free Size");
+            }
           }
         })
         .catch(() => {})
@@ -42,11 +50,17 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (!product) return;
     const existingCart = JSON.parse(localStorage.getItem("sutra_cart") || "[]");
-    const existingIndex = existingCart.findIndex((item: any) => item.id === product.id);
+    const cartItemId = `${product.id}-${selectedSize}`;
+    const existingIndex = existingCart.findIndex((item: any) => item.cartItemId === cartItemId || (item.id === product.id && item.selectedSize === selectedSize));
     if (existingIndex > -1) {
       existingCart[existingIndex].qty += 1;
     } else {
-      existingCart.push({ ...product, qty: 1 });
+      existingCart.push({ 
+        ...product, 
+        cartItemId, 
+        selectedSize: selectedSize || product.fabric || "Standard",
+        qty: 1 
+      });
     }
     localStorage.setItem("sutra_cart", JSON.stringify(existingCart));
     setAddedMessage(true);
@@ -113,10 +127,22 @@ export default function ProductDetailPage() {
             <p className="text-sm text-[#2C3E50]/80 leading-relaxed">{product.description}</p>
 
             <div className="space-y-2 pt-2">
-              <label className="text-xs font-bold uppercase tracking-wider">Select Size / Stitching Option:</label>
-              <div className="flex flex-wrap gap-3">
-                {["Unstitched Fabric Set", "Standard Size (M)", "Standard Size (L)", "Standard Size (XL)", "Custom Tailored"].map((size) => (
-                  <button key={size} className="px-4 py-2 border border-[#D8D2C4] bg-[#FAF9F5] text-xs font-bold rounded hover:bg-[#2C3E50] hover:text-[#FAF9F5] transition">
+              <label className="text-xs font-bold uppercase tracking-wider">Select Available Size / Option:</label>
+              <div className="flex flex-wrap gap-2.5">
+                {(Array.isArray(product.sizes) && product.sizes.length > 0
+                  ? product.sizes
+                  : (product.fabric || "Free Size").split(",").map((s: string) => s.trim()).filter(Boolean)
+                ).map((size: string) => (
+                  <button 
+                    key={size}
+                    type="button"
+                    onClick={() => setSelectedSize(size)}
+                    className={`px-4 py-2 border text-xs font-bold rounded transition ${
+                      selectedSize === size
+                        ? "bg-[#2C3E50] text-[#FAF9F5] border-[#2C3E50]"
+                        : "border-[#D8D2C4] bg-[#FAF9F5] text-[#2C3E50] hover:border-[#2C3E50]"
+                    }`}
+                  >
                     {size}
                   </button>
                 ))}
@@ -128,7 +154,7 @@ export default function ProductDetailPage() {
                 Add to Shopping Bag
               </button>
               <a 
-                href={`https://wa.me/919876543210?text=Hello%20Sutra%20and%20Loom,%20I%20want%20to%20buy%20${encodeURIComponent(product.name)}%2520(₹${product.price})`} 
+                href={`https://wa.me/919876543210?text=Hello%20Sutra%20and%20Loom,%20I%20want%20to%20buy%20${encodeURIComponent(product.name)}%20(${encodeURIComponent(selectedSize)})%20(₹${product.price})`} 
                 target="_blank" 
                 className="flex-1 py-4 bg-[#FAF9F5] border border-[#D8D2C4] text-[#2C3E50] text-xs font-semibold uppercase tracking-wider rounded hover:bg-[#D8D2C4] hover:text-[#2C3E50] transition text-center flex items-center justify-center gap-2"
               >
