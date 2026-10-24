@@ -100,7 +100,7 @@ function ShopContent() {
 
         {/* Categories */}
         <div className="flex flex-wrap gap-3 mb-12">
-          {["All", "Dress Piece", "Traditional Dresses"].map((cat) => (
+          {["All", "Dress Pieces", "Dress"].map((cat) => (
             <button
               key={cat}
               onClick={() => setCurrentCategory(cat)}
