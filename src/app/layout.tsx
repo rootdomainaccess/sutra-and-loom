@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navbar } from "@/components/ui/Navbar";
 
 export const metadata: Metadata = {
-  title: "Factory Asset Engine | Sutra & Loom",
-  description: "Atomic asset ingestion and sequential SKU renaming pipeline for handloom and ethnic wear enterprises.",
+  title: "Sutra & Loom | Minimalist Indian Handloom & Ethnic Wear",
+  description: "Exquisite handwoven sarees, organic Chanderi dresses, and regal festive lehengas crafted by master artisans.",
 };
 
 export default function RootLayout({
@@ -13,10 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="antialiased bg-factory-900 text-slate-100 flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
+    <html lang="en">
+      <body className="bg-[#F0ECE3] text-[#596E79] min-h-screen flex flex-col antialiased selection:bg-[#C7B198] selection:text-white font-sans">
+        {children}
       </body>
     </html>
   );
